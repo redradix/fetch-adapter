@@ -2,8 +2,9 @@
   "name": "fetch-adapter",
   "version": "0.1.0",
   "description": "Fetch adapter for redux-query",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "babel src --out-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,5 +21,12 @@
   "bugs": {
     "url": "https://github.com/redradix/fetch-adapter/issues"
   },
-  "homepage": "https://github.com/redradix/fetch-adapter#readme"
+  "homepage": "https://github.com/redradix/fetch-adapter#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2016": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1"
+  }
 }
