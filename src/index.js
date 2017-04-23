@@ -1,3 +1,4 @@
+import { stringify } from 'qs'
 
 /**
  * Fetch network adapter for redux-query
@@ -21,6 +22,11 @@ async function buildResponse(response) {
 // REVIEW: Make this a factory accepting options to deep merge.
 const fetchNetworkAdapter = (url, method, { body, headers, credentials } = {}) => {
   const options = { method, body, headers, credentials }
+
+  if (method === 'GET' && body) {
+    url = `${url}${url.includes('?') ? '&' : '?'}${stringify(body)}`
+  }
+
   const request = window.fetch.bind(window.fetch, url, options)
 
   const execute = (cb) =>

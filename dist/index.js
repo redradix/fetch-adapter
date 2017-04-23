@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -33,10 +33,10 @@ var buildResponse = function () {
               return resHeaders[h] = v;
             });
 
-            return _context.abrupt("return", { resStatus: resStatus, resBody: resBody, resText: resText, resHeaders: resHeaders });
+            return _context.abrupt('return', { resStatus: resStatus, resBody: resBody, resText: resText, resHeaders: resHeaders });
 
           case 8:
-          case "end":
+          case 'end':
             return _context.stop();
         }
       }
@@ -51,6 +51,8 @@ var buildResponse = function () {
 // REVIEW: Make this a factory accepting options to deep merge.
 
 
+var _qs = require('qs');
+
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var fetchNetworkAdapter = function fetchNetworkAdapter(url, method) {
@@ -60,6 +62,11 @@ var fetchNetworkAdapter = function fetchNetworkAdapter(url, method) {
       credentials = _ref2.credentials;
 
   var options = { method: method, body: body, headers: headers, credentials: credentials };
+
+  if (method === 'GET' && body) {
+    url = '' + url + (url.includes('?') ? '&' : '?') + (0, _qs.stringify)(body);
+  }
+
   var request = window.fetch.bind(window.fetch, url, options);
 
   var execute = function execute(cb) {
