@@ -9,8 +9,7 @@ import { stringify } from 'qs'
  */
 
 async function buildResponse(response) {
-  // REVIEW: Shall we throw an error when status < 200 || status >= 300 ?
-  const error = void 0
+  const error = response.ok ? void 0 : new Error()
   const resStatus = response.status
   const resText = await response.text()
   const resBody = JSON.parse(resText)

@@ -19,8 +19,7 @@ var buildResponse = function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            // REVIEW: Shall we throw an error when status < 200 || status >= 300 ?
-            error = void 0;
+            error = response.ok ? void 0 : new Error();
             resStatus = response.status;
             _context.next = 4;
             return response.text();
