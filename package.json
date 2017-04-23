@@ -1,0 +1,24 @@
+{
+  "name": "fetch-adapter",
+  "version": "0.1.0",
+  "description": "Fetch adapter for redux-query",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/redradix/fetch-adapter.git"
+  },
+  "keywords": [
+    "fetch",
+    "adapter",
+    "redux-query"
+  ],
+  "author": "Aaron Contreras <aaron@redradix.com> (https://github.com/acontreras89)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/redradix/fetch-adapter/issues"
+  },
+  "homepage": "https://github.com/redradix/fetch-adapter#readme"
+}
