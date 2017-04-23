@@ -14,17 +14,18 @@ Object.defineProperty(exports, "__esModule", {
 
 var buildResponse = function () {
   var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(response) {
-    var resStatus, resText, resBody, resHeaders;
+    var error, resStatus, resText, resBody, resHeaders;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             // REVIEW: Shall we throw an error when status < 200 || status >= 300 ?
+            error = void 0;
             resStatus = response.status;
-            _context.next = 3;
+            _context.next = 4;
             return response.text();
 
-          case 3:
+          case 4:
             resText = _context.sent;
             resBody = JSON.parse(resText);
             resHeaders = {};
@@ -33,9 +34,9 @@ var buildResponse = function () {
               return resHeaders[h] = v;
             });
 
-            return _context.abrupt('return', { resStatus: resStatus, resBody: resBody, resText: resText, resHeaders: resHeaders });
+            return _context.abrupt('return', [error, resStatus, resBody, resText, resHeaders]);
 
-          case 8:
+          case 9:
           case 'end':
             return _context.stop();
         }
@@ -52,6 +53,8 @@ var buildResponse = function () {
 
 
 var _qs = require('qs');
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
@@ -70,14 +73,9 @@ var fetchNetworkAdapter = function fetchNetworkAdapter(url, method) {
   var request = window.fetch.bind(window.fetch, url, options);
 
   var execute = function execute(cb) {
-    return request().then(buildResponse, cb) // REVIEW: Should we move cb to the 2nd then?
-    .then(function (_ref3) {
-      var resStatus = _ref3.resStatus,
-          resBody = _ref3.resBody,
-          resText = _ref3.resText,
-          resHeaders = _ref3.resHeaders;
-      return cb(void 0, resStatus, resBody, resText, resHeaders);
-    });
+    return request().then(buildResponse).then(function (args) {
+      return cb.apply(undefined, _toConsumableArray(args));
+    }, cb);
   };
 
   // TODO: Add some hack to prevent callback from being called after abortion
