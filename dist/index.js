@@ -63,6 +63,13 @@ var fetchNetworkAdapter = function fetchNetworkAdapter(url, method) {
       headers = _ref2.headers,
       credentials = _ref2.credentials;
 
+  var aborted = false;
+  var abortionMock = function abortionMock(cb) {
+    return function () {
+      return aborted ? void 0 : cb.apply(undefined, arguments);
+    };
+  };
+
   var options = { method: method, body: body, headers: headers, credentials: credentials };
 
   if (method === 'GET' && body) {
@@ -72,14 +79,16 @@ var fetchNetworkAdapter = function fetchNetworkAdapter(url, method) {
   var request = new Request(url, options);
 
   var execute = function execute(cb) {
-    return window.fetch(request).then(buildResponse).then(function (args) {
-      return cb.apply(undefined, _toConsumableArray(args));
-    }, cb);
+    return window.fetch(request).then(abortionMock(buildResponse))
+    // NOTE: Give a default value of [] to prevent from breaking when aborted
+    .then(function () {
+      var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      return abortionMock(cb).apply(undefined, _toConsumableArray(args));
+    }, abortionMock(cb));
   };
 
-  // TODO: Add some hack to prevent callback from being called after abortion
   var abort = function abort() {
-    return void 0;
+    return aborted = true;
   };
 
   return {

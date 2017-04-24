@@ -21,6 +21,9 @@ async function buildResponse(response) {
 
 // REVIEW: Make this a factory accepting options to deep merge.
 const fetchNetworkAdapter = (url, method, { body, headers, credentials } = {}) => {
+  let aborted = false
+  const abortionMock = (cb) => (...args) => aborted ? void 0 : cb(...args)
+
   const options = { method, body, headers, credentials }
 
   if (method === 'GET' && body) {
@@ -31,11 +34,11 @@ const fetchNetworkAdapter = (url, method, { body, headers, credentials } = {}) =
 
   const execute = (cb) =>
     window.fetch(request)
-    .then(buildResponse)
-    .then((args) => cb(...args), cb)
+    .then(abortionMock(buildResponse))
+    // NOTE: Give a default value of [] to prevent from breaking when aborted
+    .then((args = []) => abortionMock(cb)(...args), abortionMock(cb))
 
-  // TODO: Add some hack to prevent callback from being called after abortion
-  const abort = () => void 0
+  const abort = () => (aborted = true)
 
   return {
     abort,
