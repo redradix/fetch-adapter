@@ -27,10 +27,10 @@ const fetchNetworkAdapter = (url, method, { body, headers, credentials } = {}) =
     url = `${url}${url.includes('?') ? '&' : '?'}${stringify(body)}`
   }
 
-  const request = window.fetch.bind(window.fetch, url, options)
+  const request = new Request(url, options)
 
   const execute = (cb) =>
-    request()
+    window.fetch(request)
     .then(buildResponse)
     .then((args) => cb(...args), cb)
 
@@ -40,7 +40,7 @@ const fetchNetworkAdapter = (url, method, { body, headers, credentials } = {}) =
   return {
     abort,
     execute,
-    instance: void 0 // There is no way to access the request instance for now
+    instance: request
   }
 }
 

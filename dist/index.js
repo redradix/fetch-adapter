@@ -69,10 +69,10 @@ var fetchNetworkAdapter = function fetchNetworkAdapter(url, method) {
     url = '' + url + (url.includes('?') ? '&' : '?') + (0, _qs.stringify)(body);
   }
 
-  var request = window.fetch.bind(window.fetch, url, options);
+  var request = new Request(url, options);
 
   var execute = function execute(cb) {
-    return request().then(buildResponse).then(function (args) {
+    return window.fetch(request).then(buildResponse).then(function (args) {
       return cb.apply(undefined, _toConsumableArray(args));
     }, cb);
   };
@@ -85,7 +85,7 @@ var fetchNetworkAdapter = function fetchNetworkAdapter(url, method) {
   return {
     abort: abort,
     execute: execute,
-    instance: void 0 // There is no way to access the request instance for now
+    instance: request
   };
 };
 
