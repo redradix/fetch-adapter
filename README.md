@@ -1,8 +1,20 @@
 # fetch-adapter
 
+[![npm version](https://img.shields.io/npm/v/fetch-adapter.svg)](https://www.npmjs.com/package/fetch-adapter)
+
 `fetch-adapter` is a network adapter designed to enable [`redux-query`](https://github.com/amplitude/redux-query) to work with the [Fetch API](https://developer.mozilla.org/en/docs/Web/API/Fetch_API).
 
-Say you start using `redux-query` in a project your project, following its README:
+> This adapter will not work with versions >= 1.4.0 and < 2.0.0 of `redux-query` due to [an issue in the library](https://github.com/amplitude/redux-query/issues/68).
+
+## Getting started
+
+Install `fetch-adapter` via npm:
+
+```sh
+$ npm install --save fetch-adapter
+```
+
+If you are already using or setting up `redux-query` in your project, your store configuration should look like this:
 
 ```js
 // configureStore.js
@@ -25,7 +37,7 @@ const store = createStore(
 );
 ```
 
-Say you then realize you need `redux-query` to make use of `window.fetch()`. All you need to do is pass this adapter to `queryMiddlewareAdvanced`:
+In order to get `redux-query` to perform network requests with `window.fetch()`, all you need to do is pass this adapter to the advanced query middleware:
 
 ```diff
 diff --git a/configureStore.js b/configureStore.js
