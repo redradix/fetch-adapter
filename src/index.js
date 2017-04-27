@@ -26,7 +26,7 @@ const fetchNetworkAdapter = (url, method, { body, headers, credentials } = {}) =
 
   const options = { method, body, headers, credentials }
 
-  if (method === 'GET' && body) {
+  if (method === 'GET' || method === 'HEAD' || && body) {
     url = `${url}${url.includes('?') ? '&' : '?'}${stringify(body)}`
   }
 
