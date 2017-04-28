@@ -4,7 +4,7 @@ import { stringify } from 'qs'
  * Fetch network adapter for redux-query
  * @see https://github.com/whatwg/fetch
  * @see https://github.com/amplitude/redux-query/
- * @version 0.1.0
+ * @version 0.2.0
  * @author Aaron Contreras <aaron@redradix.com>
  */
 
