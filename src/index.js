@@ -67,7 +67,7 @@ const fetchNetworkAdapter = (url, method, { body, headers, credentials } = {}) =
   const request = new Request(url, options)
 
   const execute = (cb) =>
-    window.fetch(request)
+    fetch(request)
     .then(abortionMock(buildResponse))
     // NOTE: Give a default value of [] to prevent from breaking when aborted
     .then((args = []) => abortionMock(cb)(...args), abortionMock(cb))
