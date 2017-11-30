@@ -1,4 +1,5 @@
 import { stringify } from 'qs'
+import * as HTTPMethods from './constants/http-methods'
 
 /**
  * Fetch network adapter for redux-query
@@ -57,7 +58,7 @@ const fetchNetworkAdapter = (url, method, { body, headers, credentials } = {}) =
   const options = { method, headers, credentials }
 
   if (body) {
-    if (method === 'GET' || method === 'HEAD') {
+    if (method === HTTPMethods.GET || method === HTTPMethods.HEAD) {
       url = `${url}${url.includes('?') ? '&' : '?'}${stringify(body)}`
     } else {
       options.body = prepareBody(body)
