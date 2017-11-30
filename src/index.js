@@ -52,6 +52,10 @@ function prepareBody(body) {
 
 // REVIEW: Make this a factory accepting options to deep merge.
 const fetchNetworkAdapter = (url, method, { body, headers, credentials } = {}) => {
+  if (!Object.values(HTTPMethods).includes(method)) {
+    throw new Error(`Unsupported HTTP method: ${method}`)
+  }
+
   let aborted = false
   const abortionMock = (cb) => (...args) => aborted ? void 0 : cb(...args)
 
