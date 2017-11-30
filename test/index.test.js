@@ -3,7 +3,7 @@ import fetch from 'fetch-mock'
 import * as HTTPMethods from '../src/constants/http-methods'
 import fetchAdapter from '../src/index'
 
-fetch.mock('*', () => ({}))
+fetch.mock('*', () => 200)
 
 describe('fetch adapter', () => {
   it('must return an object with both execute and abort functions, as well as the request instance', () => {
@@ -72,8 +72,8 @@ describe('fetch adapter', () => {
       const cb = jest.fn((err, status, body, text, headers) => {
         expect(err).toBeUndefined()
         expect(status).toBe(200)
-        expect(body).toEqual({})
-        expect(text).toBe('{}')
+        expect(body).toBeUndefined()
+        expect(text).toBe('')
         expect(headers).toEqual({})
         done()
       })

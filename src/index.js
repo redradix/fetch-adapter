@@ -13,7 +13,10 @@ async function buildResponse(response) {
   const error = response.ok ? void 0 : new Error()
   const resStatus = response.status
   const resText = await response.text()
-  const resBody = JSON.parse(resText)
+  let resBody
+  try {
+    resBody = JSON.parse(resText)
+  } catch (e) { }
   const resHeaders = {}
   response.headers.forEach((v, h) => resHeaders[h] = v)
 
