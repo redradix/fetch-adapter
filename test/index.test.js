@@ -1,6 +1,9 @@
 import 'isomorphic-fetch'
+import fetch from 'fetch-mock'
 import * as HTTPMethods from '../src/constants/http-methods'
 import fetchAdapter from '../src/index'
+
+fetch.mock('*', () => ({}))
 
 describe('fetch adapter', () => {
   it('must return an object with both execute and abort functions, as well as the request instance', () => {
@@ -43,5 +46,38 @@ describe('fetch adapter', () => {
   it('must throw an error when supplied an invalid HTTP method', () => {
     const invalid = () => fetchAdapter('http://localhost', 'abc')
     expect(invalid).toThrow(/Unsupported HTTP method/)
+  })
+
+  describe('execute', () => {
+    beforeEach(() => fetch.reset())
+
+    it('calls the global fetch', () => {
+      const { execute } = fetchAdapter('', HTTPMethods.GET)
+      const cb = jest.fn()
+      execute(cb)
+      expect(fetch.called()).toBe(true)
+    })
+
+    it('receives a callback which is called after performing the request', (done) => {
+      const { execute } = fetchAdapter('', HTTPMethods.GET)
+      const cb = jest.fn(() => {
+        expect(fetch.called()).toBe(true)
+        done()
+      })
+      execute(cb)
+    })
+
+    it('it passes an error (if any), as well as the response (status, body, text, headers)', (done) => {
+      const { execute } = fetchAdapter('', HTTPMethods.GET)
+      const cb = jest.fn((err, status, body, text, headers) => {
+        expect(err).toBeUndefined()
+        expect(status).toBe(200)
+        expect(body).toEqual({})
+        expect(text).toBe('{}')
+        expect(headers).toEqual({})
+        done()
+      })
+      execute(cb)
+    })
   })
 })
