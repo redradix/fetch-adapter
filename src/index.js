@@ -2,7 +2,7 @@ import { stringify } from 'qs'
 import * as HTTPMethods from './constants/http-methods'
 
 /**
- * Fetch network adapter for redux-query
+ * Fetch network interface for redux-query
  * @see https://github.com/whatwg/fetch
  * @see https://github.com/amplitude/redux-query/
  * @version 0.2.0
@@ -54,7 +54,7 @@ function prepareBody(body) {
 }
 
 // REVIEW: Make this a factory accepting options to deep merge.
-const fetchNetworkAdapter = (url, method, { body, headers, credentials } = {}) => {
+const fetchNetworkInterface = (url, method, { body, headers, credentials } = {}) => {
   if (!Object.values(HTTPMethods).includes(method)) {
     throw new Error(`Unsupported HTTP method: ${method}`)
   }
@@ -89,4 +89,4 @@ const fetchNetworkAdapter = (url, method, { body, headers, credentials } = {}) =
   }
 }
 
-export default fetchNetworkAdapter
+export default fetchNetworkInterface

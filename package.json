@@ -1,7 +1,7 @@
 {
   "name": "fetch-adapter",
   "version": "0.2.0",
-  "description": "Fetch adapter for redux-query",
+  "description": "Fetch interface for redux-query",
   "main": "dist/index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
